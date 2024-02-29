@@ -1,0 +1,75 @@
+# # frps日志文件
+# frps_log: /Users/arthur.king/workspace/vpn/frptables/log/frps.log
+
+# 输出日志目录
+logs: /Users/arthur.king/workspace/vpn/frptables/log/
+
+filters:
+  - # log
+    log_file: ./log/frps.log
+    reg_filters: 
+      - # 规则过滤
+        expression: 'get a user connection \[(\d+\.\d+\.\d+\.\d+):(\d+)\]'
+        offset: [1, 2]
+      - # ssh 过滤规则
+        expression: 'Failed password.* (\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\s+port\s+(\d+)'
+      - # log
+  -
+    log_file: ./log/file.log
+    reg_filters: 
+      - # 规则过滤
+        expression: 'get a user connection \[(\d+\.\d+\.\d+\.\d+):(\d+)\]'
+        offset: [1, 2]
+      - # ssh 过滤规则
+        expression: 'Failed password.* (\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\s+port\s+(\d+)'
+
+listen: ':8888'
+# frps 名字端口对应配置
+name_port:
+  "S0-SSH": 5322
+  "家里电脑": 5355
+
+# 启用防火墙类型 iptables / firewall / md (Microsoft Defender)
+tables_type: iptables
+
+# ip白名单:
+allow_ip:
+  - 127.0.0.1
+
+# 端口白名单
+allow_port:
+  - 8080
+  - 5443
+
+# 规则访问
+rules:
+
+  # 按数组顺序来，匹配到了就按匹配的规则执行，跳过此规则。
+  # 地区以 http://ip-api.com/json/?lang=zh-CN 查询的结果为准
+  # 端口: -1 所有端口
+  # time: 时间区间
+  # count: 访问次数，-1不限，0限制。其他为 time时间内访问count次，超出频率就限制
+
+  - # 中国浙江杭州IP允许
+    port: -1
+    country: 中国
+    regionName: 浙江
+    city: 杭州
+    time: 600
+    count: 100
+
+  - # 中国地区IP 10分钟3次
+    port: -1
+    country: 中国
+    regionName:
+    city:
+    time: 600
+    count: 10
+
+  - # 其他地区IP禁止
+    port: -1
+    country:
+    regionName:
+    city:
+    time: 3
+    count: 1
