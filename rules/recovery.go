@@ -7,8 +7,9 @@ import (
 	"time"
 
 	"github.com/arthur/banbrutes/util"
-	_ "github.com/mattn/go-sqlite3"
+	// _ "github.com/mattn/go-sqlite3"
 	"github.com/zngw/log"
+	_ "modernc.org/sqlite"
 )
 
 // 用线程安装的map保存ip记录
@@ -43,7 +44,7 @@ func NewRecoverySrv() (srv *Recovery) {
 }
 
 func createDatabase() (db *sql.DB, err error) {
-	db, err = sql.Open("sqlite3", "ban_list.db")
+	db, err = sql.Open("sqlite", "ban_list.db")
 	if err != nil {
 		panic(err)
 	}

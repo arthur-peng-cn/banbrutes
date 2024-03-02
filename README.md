@@ -37,14 +37,6 @@
 ## 前提
 1、因为需要用到命令行修改系统防火墙，所以运行程序需要root或管理员权限
 
-2、需要frps在0.36及以上版本，并且开启日志功能，日志输出等级为info。
-```ini
-#日志输出，可以设置为具体的日志文件或者console
-log_file = /usr/local/frp/log/frps.log
-
-#日志记录等级，有trace, debug, info, warn, error
-log_level = info
-```
 
 ## Frps plugin工作方式
 ```
